@@ -10,34 +10,34 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @EnableOAuth2Sso
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	@Override
+
+    @Override
     public void configure(WebSecurity web) throws Exception {
         // セキュリティ設定を無視するリクエストの設定
         // 静的リソース(images、css、javascript)を無視する設定を記述
         web.ignoring().antMatchers(
-                            "/images/**",
-                            "/css/**",
-                            "/javascript/**",
-                            "/webjars/**");
+                "/images/**",
+                "/css/**",
+                "/javascript/**",
+                "/webjars/**");
     }
-	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable() // CSRF対策を無効化
-        .authorizeRequests()
-            // indexはアクセスを許可
-            .antMatchers("/").permitAll()
-            .anyRequest().authenticated()
-        .and()
-            .logout()
-            .logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))       // ログアウト処理のパス
-            .logoutSuccessUrl("/")
-            // ログアウト時に削除するクッキー名
-            .deleteCookies("JSESSIONID")
-            // ログアウト時のセッション破棄を有効化
-            .invalidateHttpSession(true)
-            .permitAll();
-	}
-	
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable() // CSRF対策を無効化
+                .authorizeRequests()
+                // indexはアクセスを許可
+                .antMatchers("/").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))       // ログアウト処理のパス
+                .logoutSuccessUrl("/")
+                // ログアウト時に削除するクッキー名
+                .deleteCookies("JSESSIONID")
+                // ログアウト時のセッション破棄を有効化
+                .invalidateHttpSession(true)
+                .permitAll();
+    }
+
 }

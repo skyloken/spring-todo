@@ -2,81 +2,82 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>Todo Application</title>
-<meta name="description" content="" />
-<meta name="viewport" content="width=device-width" />
-<base href="/" />
-<link rel="stylesheet" type="text/css"
-	href="/webjars/bootstrap/css/bootstrap.min.css" />
-<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
-<script type="text/javascript"
-	src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Todo Application</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width"/>
+    <base href="/"/>
+    <link rel="stylesheet" type="text/css"
+          href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-	<div class="container unauthenticated">
-		With Facebook: <a href="/login">click here</a>
-	</div>
-	<div class="container authenticated" style="display: none">
-		Logged in as: <span id="user"></span>
-		<div>
-			<button onClick="logout()" class="btn btn-primary">Logout</button>
-		</div>
-		<script type="text/javascript">
-			var logout = function() {
-				$.post("/logout", function() {
-					$("#user").html('');
-					$(".unauthenticated").show();
-					$(".authenticated").hide();
-				})
-				return true;
-			}
-		</script>
-	</div>
-	<script type="text/javascript">
-		$.get("/user", function(data) {
-			$("#user").html(data.userAuthentication.details.name);
-			$(".unauthenticated").hide()
-			$(".authenticated").show()
-		});
-	</script>
+<div class="container">
+    <div class="container unauthenticated">
+        With Facebook: <a href="/login">click here</a>
+    </div>
+    <div class="container authenticated" style="display: none">
+        Logged in as: <span id="user"></span>
+        <div>
+            <button onClick="logout()" class="btn btn-primary">Logout</button>
+        </div>
+        <script type="text/javascript">
+            var logout = function () {
+                $.post("/logout", function () {
+                    $("#user").html('');
+                    $(".unauthenticated").show();
+                    $(".authenticated").hide();
+                })
+                return true;
+            }
+        </script>
+    </div>
+    <script type="text/javascript">
+        $.get("/user", function (data) {
+            $("#user").html(data.userAuthentication.details.name);
+            $(".unauthenticated").hide()
+            $(".authenticated").show()
+        });
+    </script>
 
-	<h1>ToDo Application</h1>
-	<form method="post" action="/post">
-		<input type="text" name="text" /> <input type="submit" value="ADD" />
-	</form>
-	<table>
-		<tr th:each="data : ${datas}">
-			<td th:switch="${data.is_done}">
-				<div th:case=false>
-					<p th:text="${data.text}">
-				</div>
-				<div th:case=true>
-					<del>
-						<p th:text="${data.text}">
-					</del>
-				</div>
-			</td>
-			<td th:switch="${data.is_done}">
-				<form method="post" action="/done" th:case=false>
-					<input type="hidden" name="id" th:value="${data.id}" /> <input
-						type="submit" value="DONE" />
-				</form>
-				<form method="post" action="/undone" th:case=true>
-					<input type="hidden" name="id" th:value="${data.id}" /> <input
-						type="submit" value="UNDONE" />
-				</form>
-			</td>
-			<td>
-				<form method="post" action="/delete">
-					<input type="hidden" name="id" th:value="${data.id}" /> <input
-						type="submit" value="DELETE" />
-				</form>
-			</td>
-		</tr>
-	</table>
-
+    <h1>ToDo Application</h1>
+    <form method="post" action="/post">
+        <input type="text" name="text"/> <input type="submit" value="ADD"/>
+    </form>
+    <table>
+        <tr th:each="data : ${datas}">
+            <td th:switch="${data.is_done}">
+                <div th:case=false>
+                    <p th:text="${data.text}">
+                </div>
+                <div th:case=true>
+                    <del>
+                        <p th:text="${data.text}">
+                    </del>
+                </div>
+            </td>
+            <td th:switch="${data.is_done}">
+                <form method="post" action="/done" th:case=false>
+                    <input type="hidden" name="id" th:value="${data.id}"/> <input
+                        type="submit" value="DONE"/>
+                </form>
+                <form method="post" action="/undone" th:case=true>
+                    <input type="hidden" name="id" th:value="${data.id}"/> <input
+                        type="submit" value="UNDONE"/>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="/delete">
+                    <input type="hidden" name="id" th:value="${data.id}"/> <input
+                        type="submit" value="DELETE"/>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

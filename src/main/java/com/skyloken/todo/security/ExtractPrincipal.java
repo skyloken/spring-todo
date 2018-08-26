@@ -7,13 +7,13 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.Principal
 import org.springframework.stereotype.Component;
 
 @Component
-public class ExtractPrincipal implements PrincipalExtractor{
+public class ExtractPrincipal implements PrincipalExtractor {
 
-	@Override
-	public Object extractPrincipal(Map<String, Object> map) {
-		System.out.println(map);
-		return new MyUser(map.get("name").toString());
-	}
+    @Override
+    public Object extractPrincipal(Map<String, Object> map) {
+        System.out.println(map);
+        return new MyUser(map.get("name").toString());
+    }
 
 }
 
